@@ -18,10 +18,12 @@ final class MySQL {
   	}
 		
   	public function query($sql) {
+		  
 		$resource = mysqli_query($this->connection, $sql);
-
+		// var_dump($resource instanceof mysqli_result );
+		// die();
 		if ($resource) {
-			if (is_resource($resource)) {
+			if ($resource instanceof mysqli_result) {
 				$i = 0;
     	
 				$data = array();
@@ -63,7 +65,7 @@ final class MySQL {
   	}	
 	
 	public function __destruct() {
-		mysql_close($this->connection);
+		mysqli_close($this->connection);
 	}
 }
 ?>
