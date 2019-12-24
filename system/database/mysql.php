@@ -20,8 +20,7 @@ final class MySQL {
   	public function query($sql) {
 		  
 		$resource = mysqli_query($this->connection, $sql);
-		// var_dump($resource instanceof mysqli_result );
-		// die();
+		
 		if ($resource) {
 			if ($resource instanceof mysqli_result) {
 				$i = 0;
@@ -53,15 +52,15 @@ final class MySQL {
   	}
 	
 	public function escape($value) {
-		return mysql_real_escape_string($value, $this->connection);
+		return mysqli_real_escape_string($this->connection, $value);
 	}
 	
   	public function countAffected() {
-    	return mysql_affected_rows($this->connection);
+    	return mysqli_affected_rows($this->connection);
   	}
 
   	public function getLastId() {
-    	return mysql_insert_id($this->connection);
+    	return mysqli_insert_id($this->connection);
   	}	
 	
 	public function __destruct() {
