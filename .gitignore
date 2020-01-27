@@ -3,3 +3,4 @@ config.php
 .ftpquota
 .project
 logs/
+.htaccess
