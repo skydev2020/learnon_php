@@ -16,6 +16,7 @@ class ControllerStudentAssignment extends Controller {
   	}
   
   	public function insert() {
+				  
 		$this->load->language('student/assignment');
     	$this->document->title = $this->language->get('heading_title_student');
 		$this->load->model('tutor/assignment');
@@ -796,11 +797,11 @@ class ControllerStudentAssignment extends Controller {
       		$this->error['students_id'] = $this->language->get('error_student_name');
     	}
 		
-    	if(!ereg('^[0-9]+\.[0-9]{2}$', $this->request->post['base_wage'])){
+    	if(!preg_match('/^[0-9]+\.[0-9]{2}$/', $this->request->post['base_wage'])){
       		$this->error['base_wage'] = $this->language->get('error_wage');
     	}
 		
-    	if(!ereg('^[0-9]+\.[0-9]{2}$', $this->request->post['base_invoice'])){
+    	if(!preg_match('/^[0-9]+\.[0-9]{2}$/', $this->request->post['base_invoice'])){
       		$this->error['base_invoice'] = $this->language->get('error_invoice');
     	}
 
