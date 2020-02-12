@@ -14,46 +14,35 @@
       <table class="form">
         <tr>
           <td><span class="required">*</span> <?php echo $entry_student_name; ?></td>
-          <td>
-            <select name="students_id" onchange="getStudentRate(this.value);">
-              <option value="">-  Select -</option>
-              <?php 
-              foreach($all_students as $student){ 
-                if($student['user_id']==$students_id){                   
-              ?>
-                  <option value="<?=$student['user_id']?>" selected="selected"><?=$student['name']?></option>
-              <?php 
-                }
-                else {                  
-              ?>
-              <option value="<?=$student['user_id']?>"><?=$student['name']?></option>
-              <?php 
-                }
-              }
-              ?>
-            </select>
-              <?php if ($error_student_name) { ?>
-              <span class="error"><?php echo $error_student_name; ?></span>
-              <?php } ?>
-          </td>
+          <td><select name="students_id" onchange="getStudentRate(this.value);">
+		  	<option value="">-  Select -</option>
+			<?php foreach($all_students as $student){ 
+			  if($student['user_id']==$students_id){
+			 ?>
+			<option value="<?=$student['user_id']?>" selected="selected"><?=$student['name']?></option>
+			<? }else{?>
+			<option value="<?=$student['user_id']?>"><?=$student['name']?></option>
+			<?php }}?>
+			</select>
+            <?php if ($error_student_name) { ?>
+            <span class="error"><?php echo $error_student_name; ?></span>
+            <?php } ?></td>
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $entry_tutor_name; ?></td>
-          <td>
-            <select name="tutors_id">
-		  	      <option value="">-  Select -</option>
-              <?php foreach($all_tutors as $tutor){
-                if($tutor['user_id']==$tutors_id){
-              ?>
-              <option value="<?=$tutor['user_id']?>" selected="selected"><?=$tutor['name']?></option>
-              <?php }else{?>
-              <option value="<?=$tutor['user_id']?>"><?=$tutor['name']?></option>
-              <?php }}?>
-            </select>
+          <td><select name="tutors_id">
+		  	<option value="">-  Select -</option>
+			<?php foreach($all_tutors as $tutor){
+			  if($tutor['user_id']==$tutors_id){
+			 ?>
+			<option value="<?=$tutor['user_id']?>" selected="selected"><?=$tutor['name']?></option>
+			<? }else{?>
+			<option value="<?=$tutor['user_id']?>"><?=$tutor['name']?></option>
+			<?php }}?>
+			</select>
             <?php if ($error_tutor_name) { ?>
             <span class="error"><?php echo $error_tutor_name; ?></span>
-            <?php } ?>
-          </td>
+            <?php } ?></td>
         </tr>
         <tr>
           <td><span class="required">*</span> <?php echo $entry_invoice; ?> <div id="loader" style="float:right;display:none;"><img src="view/image/loading.gif" /></div></td>

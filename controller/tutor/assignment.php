@@ -1,23 +1,17 @@
 <?php    
-class ControllerStudentAssignment extends Controller { 
+class ControllerTutorAssignment extends Controller { 
 	private $error = array();
-	
-	public function getStudentRate() {
-		$this->load->model('student/assignment');
-		echo $this->model_student_assignment->getStudentRate($this->request->get['user_id']);
-		exit;
-	}
   
   	public function index() {
-		$this->load->language('student/assignment');
-		$this->document->title = $this->language->get('heading_title_student');
+		$this->load->language('tutor/assignment');
+		$this->document->title = $this->language->get('heading_title');
 		$this->load->model('tutor/assignment');
     	$this->getList();
   	}
   
   	public function insert() {
-		$this->load->language('student/assignment');
-    	$this->document->title = $this->language->get('heading_title_student');
+		$this->load->language('tutor/assignment');
+    	$this->document->title = $this->language->get('heading_title');
 		$this->load->model('tutor/assignment');
 			
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
@@ -28,7 +22,7 @@ class ControllerStudentAssignment extends Controller {
 				$message1 = "You have been assigned a tutor for tutoring.";
 				
 				$subject2 = "Student assigned";
-				$message2 = "You have been assigned a student for tutoring.";
+				$message3 = "You have been assigned a student for tutoring.";
 	
 				$notification = array(
 					'notification_from'=>$this->session->data['user_id'],
@@ -45,11 +39,12 @@ class ControllerStudentAssignment extends Controller {
 				);
 				$this->model_cms_notifications->addInformation($notification);
 			}
-				
+		
       	  	$this->model_tutor_assignment->addAssignment($this->request->post);
-			log_activity("Student Assigned", "A student is assigned to a tutor.");
+			log_activity("Tutor Assigned", "A tutor is assigned to a student.");
 			$this->session->data['success'] = $this->language->get('text_success');
 		  
+			
 			/* Softronikx Technologies - Code to send Email notification to Tutor and Student */
 			
 			$this->load->model('user/user');
@@ -57,6 +52,7 @@ class ControllerStudentAssignment extends Controller {
 			$tutor_details = $this->model_user_user->getUser($this->request->post['tutors_id']);
 			
 			//Email Tutor
+			
 			$this->load->model('account/student');
 			$tutor_mail = $this->model_account_student->getMailFormat('4');
 			
@@ -138,8 +134,8 @@ class ControllerStudentAssignment extends Controller {
 			}
 	  	  
 			/* End of code by Softronikx Technologies */
-			
-			
+		  
+		  
 			$url = '';
 
 			if (isset($this->request->get['filter_tutor_name'])) {
@@ -166,15 +162,15 @@ class ControllerStudentAssignment extends Controller {
 				$url .= '&order=' . $this->request->get['order'];
 			}
 			
-			$this->redirect(HTTPS_SERVER . 'index.php?route=student/assignment&token=' . $this->session->data['token'] . $url);
+			$this->redirect(HTTPS_SERVER . 'index.php?route=tutor/assignment&token=' . $this->session->data['token'] . $url);
 		}
     	
     	$this->getForm("heading_title_insert");
   	} 
    
   	public function update() {
-		$this->load->language('student/assignment');
-    	$this->document->title = $this->language->get('heading_title_student');
+		$this->load->language('tutor/assignment');
+    	$this->document->title = $this->language->get('heading_title');
 		$this->load->model('tutor/assignment');
 		
     	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
@@ -205,7 +201,7 @@ class ControllerStudentAssignment extends Controller {
 			}
 		
 			$this->model_tutor_assignment->editAssignment($this->request->get['tutors_to_students_id'], $this->request->post);
-	  		log_activity("Assignment Updated", "Student assignment details updated.");
+	  		log_activity("Assignment Updated", "Tutor assignment details updated.");
 			$this->session->data['success'] = $this->language->get('text_success');
 	  
 			/* Softronikx Technologies - Code to send Email notification to Tutor and Student */
@@ -299,8 +295,6 @@ class ControllerStudentAssignment extends Controller {
 			/* End of code by Softronikx Technologies */
 	  
 	  
-	  
-	  
 			$url = '';
 
 			if (isset($this->request->get['filter_tutor_name'])) {
@@ -327,24 +321,23 @@ class ControllerStudentAssignment extends Controller {
 				$url .= '&order=' . $this->request->get['order'];
 			}
 			
-			$this->redirect(HTTPS_SERVER . 'index.php?route=student/assignment&token=' . $this->session->data['token'] . $url);
+			$this->redirect(HTTPS_SERVER . 'index.php?route=tutor/assignment&token=' . $this->session->data['token'] . $url);
 		}
     
     	$this->getForm("heading_title_update");
   	}   
 
   	public function delete() {
-		$this->load->language('student/assignment');
+		$this->load->language('tutor/assignment');
 
-    	$this->document->title = $this->language->get('heading_title_student');
-		
+    	$this->document->title = $this->language->get('heading_title');
 		$this->load->model('tutor/assignment');
 			
     	if (isset($this->request->post['selected']) && $this->validateDelete()) {
 			foreach ($this->request->post['selected'] as $tutors_to_students_id) {
 				$this->model_tutor_assignment->deleteAssignment($tutors_to_students_id);
 			}
-			log_activity("Assignment Deleted", "Student assignment deleted.");
+			log_activity("Assignment Deleted", "Tutor assignment deleted.");
 			$this->session->data['success'] = $this->language->get('text_success');
 
 			$url = '';
@@ -373,7 +366,7 @@ class ControllerStudentAssignment extends Controller {
 				$url .= '&order=' . $this->request->get['order'];
 			}
 			
-			$this->redirect(HTTPS_SERVER . 'index.php?route=student/assignment&token=' . $this->session->data['token'] . $url);
+			$this->redirect(HTTPS_SERVER . 'index.php?route=tutor/assignment&token=' . $this->session->data['token'] . $url);
     	}
     
     	$this->getList();
@@ -451,13 +444,13 @@ class ControllerStudentAssignment extends Controller {
    		);
 
    		$this->document->breadcrumbs[] = array(
-       		'href'      => HTTPS_SERVER . 'index.php?route=student/assignment&token=' . $this->session->data['token'] . $url,
-       		'text'      => $this->language->get('heading_title_student'),
+       		'href'      => HTTPS_SERVER . 'index.php?route=tutor/assignment&token=' . $this->session->data['token'] . $url,
+       		'text'      => $this->language->get('heading_title'),
       		'separator' => ' :: '
    		);
 		
-		$this->data['insert'] = HTTPS_SERVER . 'index.php?route=student/assignment/insert&token=' . $this->session->data['token'] . $url;
-		$this->data['delete'] = HTTPS_SERVER . 'index.php?route=student/assignment/delete&token=' . $this->session->data['token'] . $url;
+		$this->data['insert'] = HTTPS_SERVER . 'index.php?route=tutor/assignment/insert&token=' . $this->session->data['token'] . $url;
+		$this->data['delete'] = HTTPS_SERVER . 'index.php?route=tutor/assignment/delete&token=' . $this->session->data['token'] . $url;
 
 		$this->data['assignments'] = array();
 
@@ -479,7 +472,7 @@ class ControllerStudentAssignment extends Controller {
 		
 			$action[] = array(
 				'text' => $this->language->get('text_edit'),
-				'href' => HTTPS_SERVER . 'index.php?route=student/assignment/update&token=' . $this->session->data['token'] . '&tutors_to_students_id=' . $result['tutors_to_students_id'] . $url
+				'href' => HTTPS_SERVER . 'index.php?route=tutor/assignment/update&token=' . $this->session->data['token'] . '&tutors_to_students_id=' . $result['tutors_to_students_id'] . $url
 			);
 			$subjects = $this->model_tutor_assignment->getAssignedSubjects($result['tutors_to_students_id']);
 			$this->data['assignments'][] = array(
@@ -493,7 +486,7 @@ class ControllerStudentAssignment extends Controller {
 			);
 		}	
 					
-		$this->data['heading_title'] = $this->language->get('heading_title_student');
+		$this->data['heading_title'] = $this->language->get('heading_title');
 		$this->data['text_enabled'] = $this->language->get('text_enabled');
 		$this->data['text_disabled'] = $this->language->get('text_disabled');
 		$this->data['text_yes'] = $this->language->get('text_yes');
@@ -555,9 +548,9 @@ class ControllerStudentAssignment extends Controller {
 			$url .= '&page=' . $this->request->get['page'];
 		}
 		
-		$this->data['sort_student_name'] = HTTPS_SERVER . 'index.php?route=student/assignment&token=' . $this->session->data['token'] . '&sort=student_name' . $url;
-		$this->data['sort_tutor_name'] = HTTPS_SERVER . 'index.php?route=student/assignment&token=' . $this->session->data['token'] . '&sort=tutor_name' . $url;
-		$this->data['sort_date_added'] = HTTPS_SERVER . 'index.php?route=student/assignment&token=' . $this->session->data['token'] . '&sort=date_added' . $url;
+		$this->data['sort_student_name'] = HTTPS_SERVER . 'index.php?route=tutor/assignment&token=' . $this->session->data['token'] . '&sort=student_name' . $url;
+		$this->data['sort_tutor_name'] = HTTPS_SERVER . 'index.php?route=tutor/assignment&token=' . $this->session->data['token'] . '&sort=tutor_name' . $url;
+		$this->data['sort_date_added'] = HTTPS_SERVER . 'index.php?route=tutor/assignment&token=' . $this->session->data['token'] . '&sort=date_added' . $url;
 
 
 		$pagination = new Pagination();
@@ -565,7 +558,7 @@ class ControllerStudentAssignment extends Controller {
 		$pagination->page = $page;
 		$pagination->limit = $this->config->get('config_admin_limit');
 		$pagination->text = $this->language->get('text_pagination');
-		$pagination->url = HTTPS_SERVER . 'index.php?route=student/assignment&token=' . $this->session->data['token'] . $url . '&page={page}';
+		$pagination->url = HTTPS_SERVER . 'index.php?route=tutor/assignment&token=' . $this->session->data['token'] . $url . '&page={page}';
 			
 		$this->data['pagination'] = $pagination->render();
 
@@ -577,7 +570,7 @@ class ControllerStudentAssignment extends Controller {
 		$this->data['sort'] = $sort;
 		$this->data['order'] = $order;
 		
-		$this->template = 'student/assignments.tpl';
+		$this->template = 'tutor/assignments.tpl';
 		$this->children = array(
 			'common/header',	
 			'common/footer'	
@@ -673,24 +666,24 @@ class ControllerStudentAssignment extends Controller {
    		);
 
    		$this->document->breadcrumbs[] = array(
-       		'href'      => HTTPS_SERVER . 'index.php?route=student/assignment&token=' . $this->session->data['token'] . $url,
-       		'text'      => $this->language->get('heading_title_student'),
+       		'href'      => HTTPS_SERVER . 'index.php?route=tutor/assignment&token=' . $this->session->data['token'] . $url,
+       		'text'      => $this->language->get('heading_title'),
       		'separator' => ' :: '
    		);
 
 		if (!isset($this->request->get['tutors_to_students_id'])) {
-			$this->data['action'] = HTTPS_SERVER . 'index.php?route=student/assignment/insert&token=' . $this->session->data['token'] . $url;
+			$this->data['action'] = HTTPS_SERVER . 'index.php?route=tutor/assignment/insert&token=' . $this->session->data['token'] . $url;
 		} else {
-			$this->data['action'] = HTTPS_SERVER . 'index.php?route=student/assignment/update&token=' . $this->session->data['token'] . '&tutors_to_students_id=' . $this->request->get['tutors_to_students_id'] . $url;
+			$this->data['action'] = HTTPS_SERVER . 'index.php?route=tutor/assignment/update&token=' . $this->session->data['token'] . '&tutors_to_students_id=' . $this->request->get['tutors_to_students_id'] . $url;
 		}
 		  
-    	$this->data['cancel'] = HTTPS_SERVER . 'index.php?route=student/assignment&token=' . $this->session->data['token'] . $url;
+    	$this->data['cancel'] = HTTPS_SERVER . 'index.php?route=tutor/assignment&token=' . $this->session->data['token'] . $url;
 		$tutors_to_students_id = "";
     	if (isset($this->request->get['tutors_to_students_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$tutors_to_students_id = $this->request->get['tutors_to_students_id'];
       		$assignment_info = $this->model_tutor_assignment->getAssignment($tutors_to_students_id);
     	}
-			
+
     	if (isset($this->request->post['tutors_id'])) {
       		$this->data['tutors_id'] = $this->request->post['tutors_id'];
 		} elseif (isset($assignment_info)) { 
@@ -706,7 +699,7 @@ class ControllerStudentAssignment extends Controller {
 		} else {
       		$this->data['students_id'] = '';
     	}
-
+		
 		$this->load->model('cms/settings');
 		$wages = $this->model_cms_settings->getSetting();	
 
@@ -774,7 +767,7 @@ class ControllerStudentAssignment extends Controller {
 		
 		$this->load->model('user/students');
 		$this->data['all_students'] = $this->model_user_students->getAllStudents(array('sort'=>'name', 'filter_approved' => 1));
-		$this->template = 'student/assignment_form.tpl';
+		$this->template = 'tutor/assignment_form.tpl';
 		$this->children = array(
 			'common/header',	
 			'common/footer'	
@@ -822,6 +815,5 @@ class ControllerStudentAssignment extends Controller {
 	  		return FALSE;
 		}  
   	} 	
-
 }
 ?>
