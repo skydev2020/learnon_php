@@ -6,8 +6,7 @@ class ControllerCommonLogin extends Controller {
 		
 		
     	$this->load->language('common/login');
-		$this->document->title = $this->language->get('heading_title');
-		var_dump(345435);
+		$this->document->title = $this->language->get('heading_title');	
 		
 		
 		if ($this->user->isLogged() && isset($this->request->get['token']) && ($this->request->get['token'] == $this->session->data['token'])) {
