@@ -20,7 +20,7 @@
 			  if($student['user_id']==$students_id){
 			 ?>
 			<option value="<?=$student['user_id']?>" selected="selected"><?=$student['name']?></option>
-			<? }else{?>
+			<?php }else{?>
 			<option value="<?=$student['user_id']?>"><?=$student['name']?></option>
 			<?php }}?>
 			</select>
@@ -36,7 +36,7 @@
 			  if($tutor['user_id']==$tutors_id){
 			 ?>
 			<option value="<?=$tutor['user_id']?>" selected="selected"><?=$tutor['name']?></option>
-			<? }else{?>
+			<?php }else{?>
 			<option value="<?=$tutor['user_id']?>"><?=$tutor['name']?></option>
 			<?php }}?>
 			</select>

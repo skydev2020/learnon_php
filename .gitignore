@@ -4,3 +4,7 @@ config.php
 .project
 logs/
 .htaccess
+secuured_access/backups/
+download/
+system/cache/
+system/library/

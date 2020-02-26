@@ -1455,11 +1455,8 @@ class ControllerUserTutors extends Controller {
       		);
 
       		$user_total = $this->model_user_tutors->getTotalTutors($data);
-			  var_dump(123);
 			  
       		$results = $this->model_user_tutors->getTutors($data);
-			  var_dump(456);
-			   die();
       		foreach ($results as $result) {
       			$action = array();
 
